@@ -1,25 +1,53 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { getToken } from "../../redux/user/user.actions";
+import { Link } from "react-router-dom";
+import Auth from "../Auth.HOcomponent";
 
-const Login = () => {
+const Login = ({ login, history }) => {
 	const [loginData, setLoginData] = useState({
 		email: "",
 		password: "",
 	});
 
+	const { email, password } = loginData;
+
 	const handleChange = (e) => {
 		setLoginData({ ...loginData, [e.target.name]: e.target.value });
 	};
 
-	const { email, password } = loginData;
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		try {
+			const url = "/api/auth";
+
+			const config = {
+				headers: { "Content-type": "application/json" },
+			};
+
+			const body = {
+				email,
+				password,
+			};
+
+			const res = await axios.post(url, body, config);
+
+			login(res.data.token);
+			history.push("/");
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<>
-			<div className="alert alert-danger">Invalid credentials</div>
 			<h1 className="large text-primary">Sign In</h1>
 			<p className="lead">
 				<i className="fas fa-user"></i> Sign into Your Account
 			</p>
-			<form className="form" action="dashboard.html">
+			<form className="form" onSubmit={(e) => handleSubmit(e)}>
 				<div className="form-group">
 					<input
 						type="email"
@@ -36,6 +64,7 @@ const Login = () => {
 						placeholder="Password"
 						name="password"
 						value={password}
+						onChange={(e) => handleChange(e)}
 					/>
 				</div>
 				<input
@@ -45,10 +74,14 @@ const Login = () => {
 				/>
 			</form>
 			<p className="my-1">
-				Don't have an account? <a href="register.html">Sign Up</a>
+				Don't have an account? <Link to="/register">Sign Up</Link>
 			</p>
 		</>
 	);
 };
 
-export default Login;
+const dispatchToProps = (dispatch) => ({
+	login: (token) => dispatch(getToken(token)),
+});
+
+export default connect(null, dispatchToProps)(Auth(Login));

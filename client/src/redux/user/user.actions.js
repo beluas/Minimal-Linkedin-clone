@@ -1,6 +1,11 @@
-const { REGISTRATION } = require("./user.types");
+const { REGISTRATION, AUTH } = require("./user.types");
 
-export const registerUser = (token) => ({
+export const getToken = (token) => ({
 	type: REGISTRATION,
+	payload: token,
+});
+
+export const loginCheck = (token) => ({
+	type: AUTH,
 	payload: token,
 });

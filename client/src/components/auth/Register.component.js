@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { registerUser } from "../../redux/user/user.actions";
+import { getToken } from "../../redux/user/user.actions";
 
-const Register = ({ registerUser }) => {
+const Register = ({ getToken }) => {
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -40,7 +40,7 @@ const Register = ({ registerUser }) => {
 
 			const res = await axios.post("/api/users", body, config);
 
-			registerUser(res.data);
+			getToken(res.data);
 		} catch (error) {
 			console.log(error.response.data);
 		}
@@ -109,7 +109,7 @@ const Register = ({ registerUser }) => {
 };
 
 const dispatchToProps = (dispatch) => ({
-	registerUser: (user) => dispatch(registerUser(user)),
+	registerUser: (user) => dispatch(getToken(user)),
 });
 
 export default connect(null, dispatchToProps)(Register);

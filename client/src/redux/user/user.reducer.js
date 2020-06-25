@@ -1,6 +1,6 @@
-const { REGISTRATION } = require("./user.types");
+const { REGISTRATION, AUTH } = require("./user.types");
 
-const INITIAL_STATE = { token: "" };
+const INITIAL_STATE = { token: "", auth: false };
 
 const userReducer = (state = INITIAL_STATE, { type, payload }) => {
 	switch (type) {
@@ -8,6 +8,12 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
 			return {
 				...state,
 				token: payload,
+			};
+
+		case AUTH:
+			return {
+				...state,
+				auth: true,
 			};
 
 		default:
