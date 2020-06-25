@@ -1,0 +1,7 @@
+{
+	"mongoURI": "mongodb+srv://Ivan:ivan@cluster0-bgobm.mongodb.net/users?retryWrites=true&w=majority",
+	"PORT": "5000",
+	"SECRET": "lisdjfbgnsdjkbgflsdkfjbg",
+	"githubClientID": "9f42092b711248a66e87",
+	"githubSecret": "45a330e4581e8abe64f8225af4465e5374ea9c67"
+}
