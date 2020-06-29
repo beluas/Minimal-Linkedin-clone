@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { getToken } from "../../redux/user/user.actions";
+import { registrationPending } from "../../redux/auth/auth.actions";
+import { setAlert } from "../../redux/alert/alert.actions";
+import PropTypes from "prop-types";
 
-const Register = ({ getToken }) => {
+const Register = ({ registrationPending, setAlert }) => {
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -17,13 +18,11 @@ const Register = ({ getToken }) => {
 	const { name, email, password, password2 } = formData;
 
 	const handleSubmit = async (e) => {
-		if (password !== password2) {
-			console.log("Not Match");
-		} else {
-			console.log(formData);
-		}
-
 		e.preventDefault();
+		if (password !== password2) {
+			setAlert("Passwords don't match", "danger");
+		} else {
+		}
 
 		const newUser = {
 			name,
@@ -32,17 +31,9 @@ const Register = ({ getToken }) => {
 		};
 
 		try {
-			const config = {
-				headers: { "Content-Type": "application/json" },
-			};
-
-			const body = JSON.stringify(newUser);
-
-			const res = await axios.post("/api/users", body, config);
-
-			getToken(res.data);
+			registrationPending(newUser);
 		} catch (error) {
-			console.log(error.response.data);
+			setAlert(error.response.data.errors[0].msg, "danger");
 		}
 	};
 	return (
@@ -108,8 +99,14 @@ const Register = ({ getToken }) => {
 	);
 };
 
+Register.propTypes = {
+	setAlert: PropTypes.func.isRequired,
+	registrationPending: PropTypes.func.isRequired,
+};
+
 const dispatchToProps = (dispatch) => ({
-	registerUser: (user) => dispatch(getToken(user)),
+	registrationPending: (user) => dispatch(registrationPending(user)),
+	setAlert: (msg, alertType) => dispatch(setAlert(msg, alertType)),
 });
 
 export default connect(null, dispatchToProps)(Register);

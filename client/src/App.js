@@ -5,6 +5,7 @@ import Landing from "./components/layout/Landing.component";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Register from "./components/auth/Register.component";
 import Login from "./components/auth/Login.component";
+import Alert from "./components/layout/alert/Alert.component";
 
 const App = () => {
 	return (
@@ -12,14 +13,14 @@ const App = () => {
 			<>
 				<Navbar />
 				<Route path="/" exact component={Landing} />
-				<Switch>
-					<>
-						<div className="container">
-							<Route path="/register" component={Register} />
-							<Route path="/login" component={Login} />
-						</div>
-					</>
-				</Switch>
+
+				<div className="container">
+					<Alert />
+					<Switch>
+						<Route path="/register" component={Register} />
+						<Route path="/login" component={Login} />
+					</Switch>
+				</div>
 			</>
 		</Router>
 	);

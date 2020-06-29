@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
-import { getToken } from "../../redux/user/user.actions";
+import { loginPending } from "../../redux/auth/auth.actions";
 import { Link } from "react-router-dom";
-import Auth from "../Auth.HOcomponent";
+import Auth from "../Auth.HOComponent";
+import PropTypes from "prop-types";
 
-const Login = ({ login, history }) => {
+const Login = ({ loginPending }) => {
 	const [loginData, setLoginData] = useState({
 		email: "",
 		password: "",
@@ -20,25 +20,9 @@ const Login = ({ login, history }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		try {
-			const url = "/api/auth";
+		const loginData = { email, password };
 
-			const config = {
-				headers: { "Content-type": "application/json" },
-			};
-
-			const body = {
-				email,
-				password,
-			};
-
-			const res = await axios.post(url, body, config);
-
-			login(res.data.token);
-			history.push("/");
-		} catch (error) {
-			console.error(error);
-		}
+		loginPending(loginData);
 	};
 
 	return (
@@ -80,8 +64,12 @@ const Login = ({ login, history }) => {
 	);
 };
 
+Login.propTypes = {
+	loginPending: PropTypes.func.isRequired,
+};
+
 const dispatchToProps = (dispatch) => ({
-	login: (token) => dispatch(getToken(token)),
+	loginPending: (loginData) => dispatch(loginPending(loginData)),
 });
 
 export default connect(null, dispatchToProps)(Auth(Login));

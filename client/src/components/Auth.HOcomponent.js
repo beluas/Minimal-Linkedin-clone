@@ -1,23 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { selectToken } from "../redux/user/user.selectors";
-import Axios from "axios";
+import { selectToken } from "../redux/auth/auth.selectors";
 
 export default (Component) => {
 	class AuthenticatedComponent extends React.Component {
 		shouldNavigateAway = async (token) => {
-			if (this.props.match.url === "/login") {
-				if (token) {
-					this.props.history.push("/");
-				}
-			} else {
-				if (!token) {
-					this.props.history.push("/");
-				}
+			if (token) {
+				this.props.history.push("/");
 			}
 		};
+
 		async componentDidMount() {
+			this.shouldNavigateAway(this.props.token);
+		}
+
+		async componentDidUpdate() {
 			this.shouldNavigateAway(this.props.token);
 		}
 

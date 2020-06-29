@@ -1,3 +1,2 @@
-export const WARNING = "WARNING";
-export const SUCCESS = "SUCCESS";
-export const HIDE = "HIDE";
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";

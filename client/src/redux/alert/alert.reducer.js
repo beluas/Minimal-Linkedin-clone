@@ -1,32 +1,16 @@
-const { SUCCESS, WARNING, HIDE } = require("./alert.types");
+const { SET_ALERT, REMOVE_ALERT } = require("./alert.types");
 
-const INITIAL_STATE = {
-	show: false,
-	status: true,
-};
+const INITIAL_STATE = [];
 
-const alertReducer = (state = INITIAL_STATE, { type, payload }) => {
+const alertReducer = (state = INITIAL_STATE, action) => {
+	const { type, payload } = action;
+
 	switch (type) {
-		case SUCCESS:
-			return {
-				...state,
-				show: true,
-				status: true,
-			};
+		case SET_ALERT:
+			return [...state, payload]; //Payload has msg, id and status
 
-		case WARNING:
-			return {
-				...state,
-				show: true,
-				status: false,
-			};
-
-		case HIDE:
-			return {
-				...state,
-				show: false,
-				status: true,
-			};
+		case REMOVE_ALERT:
+			return state.filter((alert) => alert.id !== payload);
 
 		default:
 			return state;

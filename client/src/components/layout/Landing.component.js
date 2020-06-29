@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Alert from "./alert/Alert.component";
 
 const Landing = () => {
 	return (
 		<section className="landing">
 			<div className="dark-overlay">
+				<Alert />
 				<div className="landing-inner">
 					<h1 className="x-large">Developer Connector</h1>
 					<p className="lead">

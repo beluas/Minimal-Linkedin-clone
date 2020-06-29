@@ -1,13 +1,16 @@
-import { SUCCESS, WARNING, HIDE } from "./alert.types";
+import { SET_ALERT, REMOVE_ALERT } from "./alert.types";
+import { v4 as uuid } from "uuid";
 
-export const successMessage = () => ({
-	type: SUCCESS,
+export const setAlert = (msg, alertType) => ({
+	type: SET_ALERT,
+	payload: {
+		id: uuid(),
+		msg,
+		alertType,
+	},
 });
 
-export const warningMessage = () => ({
-	type: WARNING,
-});
-
-export const successMessage = () => ({
-	type: HIDE,
+export const removeAlert = (id) => ({
+	type: REMOVE_ALERT,
+	payload: id,
 });
